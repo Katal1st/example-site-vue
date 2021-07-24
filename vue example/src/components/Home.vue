@@ -1,6 +1,5 @@
 <template>
-
-  <div>
+  <div v-if="!loading">
     <v-container fluid>
       <v-layout row>
         <v-flex xs12>
@@ -42,9 +41,23 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn flat :to="'/ad/' + ad.id">Open</v-btn>
-              <v-btn raised class="primary">Buy</v-btn>
+              <app-buy-modal :ad="ad"></app-buy-modal>
             </v-card-actions>
           </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </div>
+  <div v-else>
+    <v-container>
+      <v-layout row>
+        <v-flex xs12 class="text-xs-center pt-5">
+          <v-progress-circular
+            indeterminate
+            :size="100"
+            :width="4"
+            color="purple"
+          ></v-progress-circular>
         </v-flex>
       </v-layout>
     </v-container>
@@ -59,13 +72,16 @@ export default {
     },
     ads () {
       return this.$store.getters.ads
+    },
+    loading () {
+      return this.$store.getters.loading
     }
   }
 }
 </script>
 
-<style scoped>
-  .car-link {
+<style scoped lang="stylus">
+  .car-link
     position: absolute;
     bottom: 50px;
     left: 50%;
@@ -74,5 +90,4 @@ export default {
     padding: 5px 15px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
-  }
 </style>
